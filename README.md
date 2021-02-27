@@ -1,21 +1,22 @@
 #	How to use
 ```
-	I made it with nodejs, puppeteer(puppeteer-extra, puppeteer-extra-plugin-stealth)!
-	First, if your environment hasn't nodsjs, download it form https://nodejs.org/
-	Second, download zip from github https://github.com/whquddn55/BojCrawler
-	Third, extract zip and on extracted folder, run command 'npm install' at commandline to download node_modules that download resources to run this app 
-	Fourth, on extracted folder, run command 'node app.js {yourid} {yourpassword}'!
+I made it with nodejs, puppeteer(puppeteer-extra, puppeteer-extra-plugin-stealth)!
+First, if your environment hasn't nodsjs, download it form https://nodejs.org/
+Second, download zip from github https://github.com/whquddn55/BojCrawler
+Third, extract zip and on extracted folder, run command 'npm install' at commandline to download node_modules that download resources to run this app 
+Fourth, on extracted folder, run command 'node app.js {yourid} {yourpassword}'!
 
-	On default, puppeteer will run on not headless mode! If you wants to run on headless mode, run command this app via 'node app.js {id} {pw} true'!
-	because third arguments default value is false
+On default, puppeteer will run on not headless mode! If you wants to run on headless mode, run command this app via 'node app.js {id} {pw} true'!
+because third arguments default value is false
 
-	nodejs와 puppeteer(puppeteer-extra, puppeteer-extra-plugin-stealth)로 제작하였습니다.
-	첫 번째로, nodejs가 설치되어 있지 않으면 https://nodejs.org/ 에서 nodejs를 설치해주세요.
-	두 번째로, https://github.com/whquddn55/BojCrawler 에서 압축파일을 다운받아주세요.
-	세 번째로, 압축을 풀고, 파일이 있는 폴더에서 'npm install'명령어를 실행시켜주세요. 이 명령어는 nodejs와 puppeteer를 실행하기위한 리소스를 다운받습니다.
-	네 번째로, 파일이 있는 폴더에서 'node app.js {아이디} {비밀번호}'를 입력해주세요.
+nodejs와 puppeteer(puppeteer-extra, puppeteer-extra-plugin-stealth)로 제작하였습니다.
+첫 번째로, nodejs가 설치되어 있지 않으면 https://nodejs.org/ 에서 nodejs를 설치해주세요.
+두 번째로, https://github.com/whquddn55/BojCrawler 에서 압축파일을 다운받아주세요.
+세 번째로, 압축을 풀고, 파일이 있는 폴더에서 'npm install'명령어를 실행시켜주세요. 이 명령어는 nodejs와 puppeteer를 실행하기위한 리소스를 다운받습니다.
+네 번째로, 파일이 있는 폴더에서 'node app.js {아이디} {비밀번호}'를 입력해주세요.
 
-	기본적으로 puppeteer가 headless가 아닌 모드로 켜지게 됩니다. headless모드로 실행하고 싶다면, 'node app.js {아이디} {비밀번호} true'로 실행해주세요. 세번째 매개변수 값이 false입니다.
+기본적으로 puppeteer가 headless가 아닌 모드로 켜지게 됩니다. headless모드로 실행하고 싶다면, 'node app.js {아이디} {비밀번호} true'로 실행해주세요. 
+세번째 매개변수 값이 false입니다.
 ```
 
 #	Features

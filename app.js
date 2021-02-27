@@ -63,7 +63,7 @@ async function getSources(page) {
             let tr = document.getElementById("status-table").getElementsByTagName('tbody')[0].getElementsByTagName('tr');
             let ret;
             for (let i = 0; i < tr.length; ++i) {
-                if (tr[i].children[3].innerText == "맞았습니다!!") {
+                if (tr[i].getElementsByClassName('result-ac')[1]) {
                     ret = tr[i].children[6].children[0].href;
                     break;
                 }
@@ -98,31 +98,6 @@ const doPuppeteer = async() => {
     await page.waitForNavigation();
     
     await getSources(page);
-    
-    
-    
-
-    // let data = [];
-    // let previous = [];
-    // while(browser.isConnected()) {
-    //     await page.reload();
-    //     data = await page.evaluate(() => {
-    //         let titles = document.getElementsByClassName("list_title");
-    //         let data = [];
-            
-    //         for (var i = 0; i < titles.length; ++i)
-    //             data.push(titles[i].innerText);
-    //         return data;
-    //     })
-
-    //     if (previous.length) {
-    //         let shiftedIndex = data.indexOf(previous[0]);
-    //         for (let i = shiftedIndex - 1; i >= 0; --i) 
-    //             console.log(`[NEW] ${data[i]}`);
-    //     }
-    //     previous = data.slice();
-    //     await timer(10000);
-    // }
 }
  
  
