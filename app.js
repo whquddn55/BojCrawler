@@ -11,6 +11,8 @@ const rl = readline.createInterface( {
 let userid = process.argv[2];
 let userpassword = process.argv[3];
 
+const exec = require('child_process').execSync;
+
 function timer(ms) {
     return new Promise(res => setTimeout(res, ms));
 }
@@ -33,6 +35,22 @@ async function loadConfig() {
         previousIds = JSON.parse(fs.readFileSync('./previous.json', 'utf8'));
     return previousIds;
 }
+
+
+async function gitCommit(problemId, timeStamp) {
+    exec(`cd downloads && git add . && git commit -m "${problemId}.cpp Solved"`);
+    
+    let dateArray = (timeStamp.replace(/ /g, "").replace(/[^0-9]/g,'.')).split('.');
+    --dateArray[1];
+    const dateString = (new Date(...dateArray)).toString();
+    console.log(`git commit --amend --no-edit --date "${dateString.slice(0, dateString.indexOf("GMT") + 3).replace("GMT", "KST")}"`);
+    exec(`cd downloads && git commit --amend --no-edit --date "${dateString.slice(0, dateString.indexOf("GMT") + 3).replace("GMT", "KST")}"`)
+}
+
+async function pushToGit() {
+    exec('cd downloads && git push origin master');
+}
+
 
 async function getProblemIds(page) {
     let previousIds = await loadConfig();
@@ -65,7 +83,12 @@ async function saveSource(page, sourceLink) {
         let length = document.getElementsByTagName("thead")[0].children[0].children.length;
         for (let i = 0; i < length; ++i) {
             let property = document.getElementsByTagName("thead")[0].children[0].children[i].innerText;
-            let value = document.getElementsByTagName("tbody")[0].children[0].children[i].innerText;
+            let value;
+            if (i == 9)
+                value = document.getElementsByTagName("tbody")[0].children[0].children[i].children[0].getAttribute('data-original-title');
+            else    
+                value = document.getElementsByTagName("tbody")[0].children[0].children[i].innerText;
+
             infoArray.push({property, value});
         }
         return infoArray;
@@ -89,7 +112,7 @@ async function saveSource(page, sourceLink) {
     );
     saveLog(`File writed ${problemId}.cpp And ${problemId}.json`);
     saveConfig(problemId);
-    await gitCommit(problemId);
+    await gitCommit(problemId, infoArray[9].value);
 
     let time = 1000 * Math.floor(Math.random() * 20) + 10000;
     console.log(`waiting ${time}ms`);
@@ -159,21 +182,15 @@ async function checkLoginInfo() {
     }
 }
 
-async function gitCommit(problemId) {
-    const exec = require('child_process').exec;
-    exec(`cd downloads && git add . && git commit -m "${problemId}.cpp Added"`);
-}
-
-async function pushToGit() {
-    const exec = require('child_process').exec;
-    exec('cd downloads && git push origin master');
-}
  
 async function doPuppeteer() {
     await checkLoginInfo();
 
     const browser = await puppeteer.launch({
-        headless : false
+        executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        headless: false,
+        ignoreHTTPSErrors: true,
+        userDataDir: './tmp'
     });
     const page = await browser.newPage();
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Whale/2.9.114.33 Safari/537.36");
@@ -185,8 +202,13 @@ async function doPuppeteer() {
     await page.evaluate((userid, userpassword) => {
         document.getElementsByName("login_user_id")[0].value = userid;
         document.getElementsByName("login_password")[0].value = userpassword;
-        document.getElementById("submit_button").click();
     }, userid, userpassword);
+
+    await timer(1000);
+
+    await page.evaluate(() => {
+        document.getElementById("submit_button").click();
+    });
     
     // wait for loginButton work correctly.
     await page.waitForNavigation();
@@ -202,3 +224,4 @@ async function doPuppeteer() {
 }
 
 doPuppeteer();
+
